@@ -68,6 +68,14 @@
                             <a href="/dashboard/calon-mahasiswa"><i class="fa fa-book green_color"></i> <span>Calon Mahasiswa</span></a></li>
                         <li class="{{ Request::is('dashboard/hasil-perhitungan*') ? 'active' : '' }}">
                             <a href="/dashboard/hasil-perhitungan"><i class="fa fa-calculator purple_color2"></i> <span>Hasil Perhitungan</span></a></li>
+                        <li>
+                            <form action="/keluar" method="post" id="keluarForm">
+                                @csrf
+                                <a href="#" class="" onclick="document.getElementById('keluarForm').submit();">
+                                    <i class="fa fa-sign-out red_color"></i> <span>Keluar</span>
+                                </a>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </nav>

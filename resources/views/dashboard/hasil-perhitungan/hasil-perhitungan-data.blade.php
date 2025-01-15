@@ -89,6 +89,7 @@
                                                                                 <th>{{ $item2->jurusan_nama }}</th>
                                                                             @endif
                                                                         @endforeach
+                                                                        <th>Detail</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class="text-dark text-capitalize">
@@ -101,6 +102,11 @@
                                                                                 @foreach ($item2->jurusans as $subItem)
                                                                                     <td>{{ $subItem->pivot->hasil }}</td>
                                                                                 @endforeach
+                                                                                <td>
+                                                                                    <div class="btn-group" role="group">
+                                                                                        <a href="/dashboard/hasil-perhitungan/{{ $item2->id }}" class="btn btn-group btn-info text-white"><i class="fa fa-eye"></i></a>
+                                                                                    </div>
+                                                                                </td>
                                                                             </tr>
                                                                         @endif
                                                                     @endforeach

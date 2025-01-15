@@ -46,9 +46,9 @@
                         <div class="heading1 margin_0">
                             <h2>Data Calon Mahasiswa</h2>
                         </div>
-                        <div class="heading-right heading1 margin_0">
+                        {{-- <div class="heading-right heading1 margin_0">
                             <h2><a href="/dashboard/calon-mahasiswa/tambah" class="btn btn-primary text-light">Tambah Data Calon Mahasiswa</a></h2>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="table_section padding_infor_info">
                         @if (session()->has('message'))
@@ -82,19 +82,23 @@
                                                 <td>{{ $item->calon_asal_sekolah }}</td>
                                                 <td>{{ $item->peminatans->peminatan_sekolah }}</td>
                                                 @foreach ($kriterias as $item2)
-                                                    <td>
-                                                        <ul>
-                                                            @foreach ($item->subKriterias as $subItem)
-                                                                @if ($item->subKriterias->contains($subItem) && $subItem->kriteria_id == $item2->id)
-                                                                    <li>{{ $subItem->sub_kriteria_nama }}</li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </td>
+                                                    @if ($item2->slug == 'nilai-rapor')
+                                                        <td>{{ $item->calon_nilai }}</td>
+                                                    @else
+                                                        <td>
+                                                            <ul>
+                                                                @foreach ($item->subKriterias as $subItem)
+                                                                    @if ($item->subKriterias->contains($subItem) && $subItem->kriteria_id == $item2->id)
+                                                                        <li>{{ $subItem->sub_kriteria_nama }}</li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </td>
+                                                    @endif
                                                 @endforeach
                                                 <td>
                                                     <div class="btn-group" role="group">
-                                                        <a href="/dashboard/calon-mahasiswa/{{ $item->id }}/edit" class="btn btn-group btn-warning text-white"><i class="fa fa-pencil"></i></a>
+                                                        {{-- <a href="/dashboard/calon-mahasiswa/{{ $item->id }}/edit" class="btn btn-group btn-warning text-white"><i class="fa fa-pencil"></i></a> --}}
                                                         <form action="/dashboard/calon-mahasiswa/{{ $item->id }}" class="btn-group" method="post">
                                                             @method('delete')
                                                             @csrf

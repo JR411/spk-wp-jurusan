@@ -1,6 +1,6 @@
 @extends('dashboard.layout')
 
-@section('title', 'Tambah Kriteria')
+@section('title', 'Tambah Sub Kriteria')
 
 @section('js')
     <script>
@@ -47,7 +47,7 @@
                 <div class="white_shd full margin_bottom_30">
                     <div class="full graph_head d-flex justify-content-between align-items-center">
                         <div class="heading1 margin_0">
-                            <h2>Tambah Kriteria</h2>
+                            <h2>Tambah Sub Kriteria</h2>
                         </div>
                     </div>
                     <div class="full progress_bar_inner">

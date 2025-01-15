@@ -2,6 +2,18 @@
 
 @section('title', 'Tambah Calon Mahasiswa')
 
+@section('js')
+    <script>
+        @foreach ($kriterias as $item)
+            @if ($item->slug == 'nilai-rapor') @continue @endif
+            $('#{{ $item->slug }}').select2({
+                dropdownParent: $('#form-calon'),
+                placeholder: "Pilih {{ $item->kriteria_nama }}",
+            });
+        @endforeach
+    </script>
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row column1 mt-5">
@@ -25,7 +37,7 @@
                                                 </button>
                                             </div>
                                         @endif
-                                        <form action="/dashboard/calon-mahasiswa" method="post">
+                                        <form action="/dashboard/calon-mahasiswa" id="form-calon" method="post">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="calon_nama" class="form-control-label">Nama Calon Mahasiswa</label>
@@ -62,32 +74,23 @@
                                                 <div class="form-group">
                                                     <label for="{{ $item->slug }}" class="form-control-label">{{ $item->kriteria_nama }}</label>
                                                     @if ($item->slug == 'nilai-rapor')
-                                                        @foreach ($item->subKriterias as $subItem)
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" value="{{ $subItem->id }}"
-                                                                    name="{{ $item->slug }}" id="{{ $item->slug }}{{ $subItem->id }}" required
-                                                                    {{ old($item->slug) == $subItem->id ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="{{ $item->slug }}{{ $subItem->id }}">
-                                                                    {{ $subItem->sub_kriteria_nama }}
-                                                                </label>
-                                                            </div>
-                                                        @endforeach
+                                                        <input type="text" name="{{ $item->slug }}" id="{{ $item->slug }}" required
+                                                            value="{{ old($item->slug) }}" placeholder="{{ $item->kriteria_nama }} Contoh: 76.54"
+                                                            class="form-control @error($item->slug) is-invalid @enderror">
                                                     @else
-                                                        <div class="row">
+                                                        <select id="{{ $item->slug }}" name="{{ $item->slug }}[]" required multiple
+                                                            class="form-control @error($item->slug) is-invalid @enderror" style="width: 100%;">
                                                             @foreach ($item->subKriterias as $subItem)
-                                                                <div class="col-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="{{ $subItem->id }}"
-                                                                            name="{{ $item->slug }}[]" id="{{ $item->slug }}{{ $subItem->id }}"
-                                                                            {{ in_array($subItem->id, old($item->slug, [])) ? 'checked' : '' }}>
-                                                                        <label class="form-check-label" for="{{ $item->slug }}{{ $subItem->id }}">
-                                                                            {{ $subItem->sub_kriteria_nama }}
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                                                <option value="{{ $subItem->id }}"
+                                                                    {{ in_array($subItem->id, old($item->slug, [])) ? 'selected' : '' }}>
+                                                                    {{ $subItem->sub_kriteria_nama }}
+                                                                </option>
                                                             @endforeach
-                                                        </div>
+                                                        </select>
                                                     @endif
+                                                    @error($item->slug)
+                                                        <small class="form-text text-muted invalid-feedback">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             @endforeach
                                             <div class="text-right mt-5">

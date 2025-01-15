@@ -27,11 +27,26 @@ class DashboardController extends Controller
             $query->orderBy('jurusan_nama');
         })->get();
 
-        return view('dashboard.hasil-perhitungan')->with(compact(
+        return view('dashboard.hasil-perhitungan.hasil-perhitungan-data')->with(compact(
             'peminatans',
             'kriterias',
             'jurusans',
             'calonMahasiswas',
+        ));
+    }
+    public function showHasil($id)
+    {
+        $kriterias = Kriteria::orderBy('kriteria_nama')->get();
+        $calonMahasiswa = CalonMahasiswa::find($id);
+        $jurusans = Jurusan::with(['calonMahasiswas' => function ($query) {
+            $query->orderByPivot('hasil', 'desc');
+        }])->with('subKriterias.kriterias')
+            ->where('peminatan_id', $calonMahasiswa->peminatan_id)->get();
+
+        return view('dashboard.hasil-perhitungan.hasil-perhitungan-show')->with(compact(
+            'kriterias',
+            'calonMahasiswa',
+            'jurusans',
         ));
     }
 }

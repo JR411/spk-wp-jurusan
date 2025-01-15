@@ -1,6 +1,6 @@
 @extends('dashboard.layout')
 
-@section('title', 'Edit Kriteria '.$subKriteria->sub_kriteria_nama)
+@section('title', 'Edit Sub Kriteria '.$subKriteria->sub_kriteria_nama)
 
 @section('js')
     $('#sub_kriteria_id').select2({
@@ -17,7 +17,7 @@
                 <div class="white_shd full margin_bottom_30">
                     <div class="full graph_head d-flex justify-content-between align-items-center">
                         <div class="heading1 margin_0">
-                            <h2>Edit Kriteria {{ $subKriteria->sub_kriteria_nama }}</h2>
+                            <h2>Edit Sub Kriteria {{ $subKriteria->sub_kriteria_nama }}</h2>
                         </div>
                     </div>
                     <div class="full progress_bar_inner">

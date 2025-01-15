@@ -56,22 +56,25 @@ class CalonMahasiswaController extends Controller
         $validationRules = [];
         foreach ($kriterias as $kriteria) {
             if ($kriteria->slug == 'nilai-rapor') {
-                $validationRules[$kriteria->slug] = 'required';
+                $validationRules[$kriteria->slug] = 'required|numeric';
             } else {
                 $validationRules[$kriteria->slug . '.*'] = 'nullable|integer';
                 $validationRules[$kriteria->slug] = 'nullable|array';
             }
         }
         $validated = $request->validate($validationRules);
+        $request['calon_nilai'] = $request['nilai-rapor'];
 
         $calon = CalonMahasiswa::create($request->all());
 
         foreach ($kriterias as $kriteria) {
             if ($kriteria->slug == 'nilai-rapor') {
                 $nilaiRapor = $validated[$kriteria->slug] ?? null;
-                if ($nilaiRapor) {
-                    $calon->subKriterias()->attach($nilaiRapor);
-                }
+                if ($nilaiRapor >= 0 && $nilaiRapor <= 59) $calon->subKriterias()->attach(1);
+                elseif ($nilaiRapor >= 60 && $nilaiRapor <= 69) $calon->subKriterias()->attach(2);
+                elseif ($nilaiRapor >= 70 && $nilaiRapor <= 79) $calon->subKriterias()->attach(3);
+                elseif ($nilaiRapor >= 80 && $nilaiRapor <= 89) $calon->subKriterias()->attach(4);
+                elseif ($nilaiRapor >= 90 && $nilaiRapor <= 100) $calon->subKriterias()->attach(5);
             } else {
                 $subKriteriaData = $validated[$kriteria->slug] ?? [];
                 foreach ($subKriteriaData as $subKriteriaId) {
@@ -154,13 +157,14 @@ class CalonMahasiswaController extends Controller
         $validationRules = [];
         foreach ($kriterias as $kriteria) {
             if ($kriteria->slug == 'nilai-rapor') {
-                $validationRules[$kriteria->slug] = 'required';
+                $validationRules[$kriteria->slug] = 'required|numeric';
             } else {
                 $validationRules[$kriteria->slug . '.*'] = 'nullable|integer';
                 $validationRules[$kriteria->slug] = 'nullable|array';
             }
         }
         $validated = $request->validate($validationRules);
+        $request['calon_nilai'] = $request['nilai-rapor'];
 
         $calon = CalonMahasiswa::find($id);
         $calon->update($request->all());
@@ -170,9 +174,11 @@ class CalonMahasiswaController extends Controller
         foreach ($kriterias as $kriteria) {
             if ($kriteria->slug == 'nilai-rapor') {
                 $nilaiRapor = $validated[$kriteria->slug] ?? null;
-                if ($nilaiRapor) {
-                    $calon->subKriterias()->attach($nilaiRapor);
-                }
+                if ($nilaiRapor >= 0 && $nilaiRapor <= 59) $calon->subKriterias()->attach(1);
+                elseif ($nilaiRapor >= 60 && $nilaiRapor <= 69) $calon->subKriterias()->attach(2);
+                elseif ($nilaiRapor >= 70 && $nilaiRapor <= 79) $calon->subKriterias()->attach(3);
+                elseif ($nilaiRapor >= 80 && $nilaiRapor <= 89) $calon->subKriterias()->attach(4);
+                elseif ($nilaiRapor >= 90 && $nilaiRapor <= 100) $calon->subKriterias()->attach(5);
             } else {
                 $subKriteriaData = $validated[$kriteria->slug] ?? [];
                 foreach ($subKriteriaData as $subKriteriaId) {
